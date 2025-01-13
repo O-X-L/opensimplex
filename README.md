@@ -13,8 +13,9 @@ You first need to install Go to compile the C-library: [Golang download/install]
 
 Compile: `go build -buildmode=c-shared -o noise.so noise.go`
 
-Test it: `python3 example.py`
+Test it: `python3 examples/minimal.py`
 
+For more information see: [Examples](https://github.com/O-X-L/python-opensimplex/blob/latest/examples)
 
 ## Credits
 

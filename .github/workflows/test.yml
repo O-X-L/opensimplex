@@ -38,7 +38,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install -r requirements_lint.txt >/dev/null
+        run: pip install -r requirements_test.txt >/dev/null
 
       - name: Set up Go
         uses: actions/setup-go@v5
