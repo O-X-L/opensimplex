@@ -1,0 +1,56 @@
+---
+
+name: Lint
+
+on:
+  push:
+    branches: [latest]
+    paths:
+      - '**.py'
+      - '**.go'
+      - '.github/workflows/lint.yml'
+      - 'requirements_lint.txt'
+  pull_request:
+    branches: [latest]
+    paths:
+      - '**.py'
+      - '**.go'
+      - '.github/workflows/lint.yml'
+      - 'requirements_lint.txt'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Install python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements_lint.txt >/dev/null
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+
+      - name: Running PyLint
+        run: |
+          pylint --version
+          pylint --recursive=y .
+
+      - name: Running GoLang Lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          args: '--config=.golangci.yml --out-format=colored-line-number'
