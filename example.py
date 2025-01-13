@@ -1,4 +1,3 @@
 from opensimplex import OpenSimplex
 
-SEED = 309482037420
-print(OpenSimplex(SEED).get_3d(20, 40))
+print('2D Noise Sample:', OpenSimplex().get_2d(20, 40))
