@@ -5,7 +5,9 @@
 
 This repository contains a simple Python3-wrapper around the [opensimplex-go](https://github.com/ojrac/opensimplex-go) module.
 
-It is faster than the full [Python3 opensimplex](https://pypi.org/project/opensimplex/) package as the actual noise calculations are offloaded to C.
+It should be an alternative to the full [Python3-implementation of opensimplex](https://pypi.org/project/opensimplex/).
+
+----
 
 ## Usage
 
@@ -16,6 +18,17 @@ Compile: `go build -buildmode=c-shared -o noise.so noise.go`
 Test it: `python3 examples/minimal.py`
 
 For more information see: [Examples](https://github.com/O-X-L/python-opensimplex/blob/latest/examples)
+
+----
+
+## Performance
+
+It is still pretty slow for now..
+
+> tbc
+
+
+----
 
 ## Credits
 
