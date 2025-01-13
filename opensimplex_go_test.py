@@ -1,4 +1,4 @@
-from opensimplex import OpenSimplex, OpenSimplexExtended, OpenSimplexConfig
+from opensimplex_go import OpenSimplex, OpenSimplexExtended, OpenSimplexConfig
 
 SEED = 309482037420
 

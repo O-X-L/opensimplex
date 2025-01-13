@@ -19,17 +19,6 @@ Test it: `python3 examples/minimal.py`
 
 For more information see: [Examples](https://github.com/O-X-L/python-opensimplex/blob/latest/examples)
 
-----
-
-## Performance
-
-It is still pretty slow for now..
-
-> tbc
-
-
-----
-
 ## Credits
 
 Thanks to [@ojrac for the golang module](https://github.com/ojrac/opensimplex-go) and of course to [@KdotJPG for the original OpenSimplex](https://github.com/KdotJPG).

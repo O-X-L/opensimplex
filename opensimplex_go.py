@@ -6,16 +6,19 @@ BASE_PATH = Path(__file__).parent.resolve()
 
 __opensimplex = cdll.LoadLibrary(f'{BASE_PATH}/noise.so')
 
+_noise_set_seed = __opensimplex.set_seed
+_noise_set_seed.argtypes = [c_int64]
+
 _noise_2d = __opensimplex.get_2d
-_noise_2d.argtypes = [c_int64, c_float, c_float]
+_noise_2d.argtypes = [c_float, c_float]
 _noise_2d.restype = c_float
 
 _noise_3d = __opensimplex.get_3d
-_noise_3d.argtypes = [c_int64, c_float, c_float, c_float]
+_noise_3d.argtypes = [c_float, c_float, c_float]
 _noise_3d.restype = c_float
 
 _noise_4d = __opensimplex.get_4d
-_noise_4d.argtypes = [c_int64, c_float, c_float, c_float, c_float]
+_noise_4d.argtypes = [c_float, c_float, c_float, c_float]
 _noise_4d.restype = c_float
 
 
@@ -27,29 +30,32 @@ class OpenSimplex:
         else:
             self.seed = seed
 
-    def get_2d(self, x: float, y: float) -> float:
+        _noise_set_seed(c_int64(self.seed))
+
+    @staticmethod
+    def get_2d(x: float, y: float) -> float:
         return _noise_2d(
-            c_int64(self.seed),
             c_float(x),
             c_float(y),
         )
 
-    def get_3d(self, x: float, y: float, z: float) -> float:
+    @staticmethod
+    def get_3d(x: float, y: float, z: float) -> float:
         return _noise_3d(
-            c_int64(self.seed),
             c_float(x),
             c_float(y),
             c_float(z),
         )
 
-    def get_4d(self, x: float, y: float, z: float, w: float) -> float:
+    @staticmethod
+    def get_4d(x: float, y: float, z: float, w: float) -> float:
         return _noise_4d(
-            c_int64(self.seed),
             c_float(x),
             c_float(y),
             c_float(z),
             c_float(w),
         )
+
 
 class OpenSimplexConfig:
     def __init__(
