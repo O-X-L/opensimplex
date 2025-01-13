@@ -1,5 +1,8 @@
 # OpenSimplex Noise
 
+[![Lint](https://github.com/O-X-L/python-opensimplex/actions/workflows/lint.yml/badge.svg)](https://github.com/O-X-L/python-opensimplex/actions/workflows/lint.yml)
+[![Test](https://github.com/O-X-L/python-opensimplex/actions/workflows/test.yml/badge.svg)](https://github.com/O-X-L/python-opensimplex/actions/workflows/test.yml)
+
 This repository contains a simple Python3-wrapper around the [opensimplex-go](https://github.com/ojrac/opensimplex-go) module.
 
 It is faster than the full [Python3 opensimplex](https://pypi.org/project/opensimplex/) package as the actual noise calculations are offloaded to C.
