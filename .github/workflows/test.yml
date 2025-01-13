@@ -50,5 +50,5 @@ jobs:
 
       - name: Running Unit Tests
         run: |
-          pytest --version
+          python3 -m pytest --version
           python3 -m pytest
