@@ -1,3 +1,8 @@
-noise.h
-noise.so
+noise_cgo.h
+noise_cgo.so
 examples/map.png
+noise_cli
+*.json
+.pytest_cache/
+.idea/
+__pycache__

@@ -38,17 +38,27 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install -r requirements_test.txt >/dev/null
+        run: |
+          pip install -r requirements_test.txt >/dev/null
+          pip install -r examples/requirements.txt >/dev/null
 
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
           go-version-file: 'go.mod'
 
-      - name: Building C-library
-        run: bash build.sh
+      - name: Building Go Binaries
+        run: |
+          bash src/cmd/build.sh
+          bash src/lib/build.sh
 
       - name: Running Unit Tests
         run: |
           python3 -m pytest --version
           python3 -m pytest
+
+      - name: Running examples
+        run: |
+          python3 examples/minimal_cgo.py
+          python3 examples/generate_map_cli.py
+          python3 examples/generate_map_cgo.py

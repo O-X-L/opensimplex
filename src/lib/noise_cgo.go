@@ -5,10 +5,6 @@ import (
 
 	opensimplex_noise "github.com/ojrac/opensimplex-go"
 )
-import (
-	"log"
-	"math"
-)
 
 var n opensimplex_noise.Noise32
 

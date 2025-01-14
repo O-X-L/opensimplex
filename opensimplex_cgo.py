@@ -1,10 +1,10 @@
-import random
+from random import randint
 from pathlib import Path
 from ctypes import cdll, c_int64, c_float
 
 BASE_PATH = Path(__file__).parent.resolve()
 
-__opensimplex = cdll.LoadLibrary(f'{BASE_PATH}/noise.so')
+__opensimplex = cdll.LoadLibrary(f'{BASE_PATH}/noise_cgo.so')
 
 _noise_set_seed = __opensimplex.set_seed
 _noise_set_seed.argtypes = [c_int64]
@@ -25,7 +25,7 @@ _noise_4d.restype = c_float
 class OpenSimplex:
     def __init__(self, seed: int = None):
         if seed is None:
-            self.seed = random.randint(0, 100_000_000)
+            self.seed = randint(0, 100_000_000)
 
         else:
             self.seed = seed
@@ -33,28 +33,32 @@ class OpenSimplex:
         _noise_set_seed(c_int64(self.seed))
 
     @staticmethod
-    def get_2d(x: float, y: float) -> float:
-        return _noise_2d(
+    def _abs(n: float) -> float:
+        if n < 0:
+            return n * -1
+
+        return n
+
+    def get_2d(self, x: float, y: float) -> float:
+        return self._abs(_noise_2d(
             c_float(x),
             c_float(y),
-        )
+        ))
 
-    @staticmethod
-    def get_3d(x: float, y: float, z: float) -> float:
-        return _noise_3d(
+    def get_3d(self, x: float, y: float, z: float) -> float:
+        return self._abs(_noise_3d(
             c_float(x),
             c_float(y),
             c_float(z),
-        )
+        ))
 
-    @staticmethod
-    def get_4d(x: float, y: float, z: float, w: float) -> float:
-        return _noise_4d(
+    def get_4d(self, x: float, y: float, z: float, w: float) -> float:
+        return self._abs(_noise_4d(
             c_float(x),
             c_float(y),
             c_float(z),
             c_float(w),
-        )
+        ))
 
 
 class OpenSimplexConfig:
@@ -72,7 +76,7 @@ class OpenSimplexConfig:
 
 
 class OpenSimplexExtended:
-    NOISE_FACTOR = 0.5
+    A = 0.5
 
     def __init__(self, config: OpenSimplexConfig):
         self.cnf = config
@@ -88,7 +92,7 @@ class OpenSimplexExtended:
         return self._get(x, y, z, w)
 
     # based on: https://github.com/simondevyoutube/ProceduralTerrain_Part10/blob/main/src/noise.js#L15
-    def _get(self, x: float, y: float, z: float = None, w: float = None):
+    def _get(self, x: float, y: float, z: float = None, w: float = None) -> float:
         d = 2
         xs = x / self.cnf.scale
         ys = y / self.cnf.scale
@@ -130,7 +134,7 @@ class OpenSimplexExtended:
                     ys * frequency,
                 )
 
-            noise_value = noise_value * self.NOISE_FACTOR + self.NOISE_FACTOR
+            noise_value = noise_value * self.A + self.A
 
             total += noise_value * amplitude
             normalization += amplitude
@@ -138,4 +142,7 @@ class OpenSimplexExtended:
             frequency *= self.cnf.lacunarity
 
         total /= normalization
+        if total < 0:
+            total *= -1
+
         return float(total ** self.cnf.exponentiation) * self.cnf.height

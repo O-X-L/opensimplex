@@ -1,4 +1,4 @@
-from opensimplex_go import OpenSimplex, OpenSimplexExtended, OpenSimplexConfig
+from opensimplex_cgo import OpenSimplex, OpenSimplexExtended, OpenSimplexConfig
 
 SEED = 309482037420
 
@@ -11,13 +11,13 @@ def test_simple_2d():
     n = OpenSimplex(SEED)
     assert isinstance(n.get_2d(1, 2), float)
     assert n.get_2d(1, 2) != 0.0
-    assert n.get_2d(20, 40) == -0.32619595527648926
+    assert n.get_2d(20, 40) == 0.32619595527648926
 
 
 def test_simple_3d():
     n = OpenSimplex(SEED)
     assert isinstance(n.get_3d(1, 2, 3), float)
-    assert n.get_3d(20, 30, 60) == -0.1572575867176056
+    assert n.get_3d(20, 30, 60) == 0.1572575867176056
 
 
 def test_simple_4d():
@@ -38,15 +38,15 @@ def test_extended_random_seed():
 def test_extended_2d():
     n = OpenSimplexExtended(OpenSimplexConfig(seed=SEED))
     assert isinstance(n.get_2d(1, 2), float)
-    assert n._noise.get_2d(20, 40) == -0.32619595527648926
-    assert n.get_2d(20, 40) == 0.4673804044723511
+    assert n._noise.get_2d(20, 40) == 0.32619595527648926
+    assert n.get_2d(20, 40) == 0.5326195955276489
 
 
 def test_extended_3d():
     n = OpenSimplexExtended(OpenSimplexConfig(seed=SEED))
     assert isinstance(n.get_3d(1, 2, 3), float)
-    assert n._noise.get_3d(20, 30, 60) == -0.1572575867176056
-    assert n.get_3d(20, 30, 60) == 0.48427424132823943
+    assert n._noise.get_3d(20, 30, 60) == 0.1572575867176056
+    assert n.get_3d(20, 30, 60) == 0.5157257586717605
 
 
 def test_extended_4d():

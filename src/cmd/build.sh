@@ -4,4 +4,5 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
-go build -buildmode=c-shared -o noise.so noise.go
+go build -o noise_cli
+mv noise_cli ../../
