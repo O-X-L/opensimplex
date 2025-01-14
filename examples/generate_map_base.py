@@ -4,7 +4,6 @@
 # Copyright: Rath Pascal
 # License: MIT
 
-from time import time
 from pathlib import Path
 from cProfile import Profile
 from io import StringIO
@@ -29,15 +28,12 @@ COLOR_BLACKROCKS = (53, 54, 68)
 COLOR_SNOW = (255, 255, 255)
 
 
+# pylint: disable=R0911
 def _get_color(height: float, max_height: float):
     factor = 255 / max_height
     h = height * factor
 
-    if h < 0:
-        h = 0
-
-    if h > 255:
-        h = 255
+    h = min(max(h, 0), 255)
 
     if h <= 0.5:
         return COLOR_DEEPWATER

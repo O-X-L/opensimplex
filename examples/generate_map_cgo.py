@@ -4,6 +4,8 @@
 # Copyright: Rath Pascal
 # License: MIT
 
+# pylint: disable=R0801
+
 from time import time
 from sys import path as sys_path
 
@@ -34,7 +36,7 @@ A = 0.5
 area = map_size * map_size
 
 
-def _generate(pos_x: float = 0, pos_y: float = 0) -> tuple[list[float], float]:
+def _generate() -> tuple[list[float], float]:
     print(f'Generating map.. {map_size}x{map_size}')
     d = []
     m = 0
@@ -48,8 +50,7 @@ def _generate(pos_x: float = 0, pos_y: float = 0) -> tuple[list[float], float]:
             xa, ya = x + pos_x, y + pos_y
             h = terrain_noise.get_2d(xa, ya)
             d.extend([xa, ya, h])
-            if h > m:
-                m = h
+            m = max(m, h)
 
             idx += 1
 

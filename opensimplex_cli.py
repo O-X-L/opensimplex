@@ -34,16 +34,22 @@ class OpenSimplexCLI:
         if not Path(self.cli).is_file():
             raise FileNotFoundError(f"OpenSimplex CLI not found at: {self.cli}")
 
-    def get_2d_array(self, size: int, pos_x: float = 0, pos_y: float = 0) -> tuple[list[float], float]:
+    def get_2d_array(
+            self, size: int, pos_x: float = 0, pos_y: float = 0,
+    ) -> tuple[list[float], float]:
         return self._cli(dimensions=2, size=size, pos_x=pos_x, pos_y=pos_y)
 
     # todo: implement 3Darray
-    def get_3d_array(self, size: int, pos_x: float = 0, pos_y: float = 0, pos_z: float = 0) -> tuple[list[float], float]:
+    def get_3d_array(
+            self, size: int, pos_x: float = 0, pos_y: float = 0, pos_z: float = 0,
+    ) -> tuple[list[float], float]:
         del pos_z
         return self._cli(dimensions=2, size=size, pos_x=pos_x, pos_y=pos_y)
 
     # todo: implement 4Darray
-    def get_4d_array(self, size: int, pos_x: float = 0, pos_y: float = 0, pos_z: float = 0, pos_w: float = 0) -> tuple[list[float], float]:
+    def get_4d_array(
+            self, size: int, pos_x: float = 0, pos_y: float = 0, pos_z: float = 0, pos_w: float = 0,
+    ) -> tuple[list[float], float]:
         del pos_z, pos_w
         return self._cli(dimensions=2, size=size, pos_x=pos_x, pos_y=pos_y)
 
@@ -64,7 +70,7 @@ class OpenSimplexCLI:
 
         shell(c)
         if not Path(t).is_file():
-            raise SystemError(f"OpenSimples CLI execution failed!")
+            raise SystemError("OpenSimples CLI execution failed!")
 
         with open(t, 'r', encoding='utf-8') as f:
             noise_map = json_loads(f.read())

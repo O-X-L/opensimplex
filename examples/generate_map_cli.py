@@ -4,6 +4,8 @@
 # Copyright: Rath Pascal
 # License: MIT
 
+# pylint: disable=R0801
+
 from sys import path as sys_path
 
 from generate_map_base import BASE_PATH, _create_img, _profile
@@ -30,7 +32,7 @@ terrain_config = OpenSimplexConfig(
 terrain_noise = OpenSimplexCLI(terrain_config)
 
 
-def _generate(pos_x: float = 0, pos_y: float = 0) -> tuple[list[float], float]:
+def _generate() -> tuple[list[float], float]:
     print(f'Generating map.. {map_size}x{map_size}')
     return terrain_noise.get_2d_array(size=map_size, pos_x=pos_x, pos_y=pos_y)
 
