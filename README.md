@@ -13,11 +13,13 @@ You first need to install Go to compile the C-library: [Golang download/install]
 
 ### CLI Implementation
 
-Compile: `bash src/cmd/build.sh`
+1. Compile: `bash src/cmd/build.sh`
 
-Test it: `python3 examples/generate_map_cli.py`
+2. Install example requirements: `pip install -r examples/requirements.txt`
 
-How to use it: [Example](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cli.py)
+3. Test it: `python3 examples/generate_map_cli.py`
+
+4. How to use it: [Example](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cli.py)
 
 This way it basically calls the standalone golang binary in a subprocess and loads the resulting data from a temporary file.
 
@@ -57,11 +59,13 @@ Usage of noise_cli:
 
 ### CGO Implementation
 
-Compile: `bash src/lib/build.sh`
+1. Compile: `bash src/lib/build.sh`
 
-Test it: `python3 examples/minimal_cgo.py` or `python3 examples/generate_map_cgo.py`
+2. Install example requirements: `pip install -r examples/requirements.txt`
 
-How to use it: [Example](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cgo.py)
+3. Test it: `python3 examples/minimal_cgo.py` or `python3 examples/generate_map_cgo.py`
+
+4. How to use it: [Example](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cgo.py)
 
 The CGO implementation is very slow. Not yet sure why that is..
 
