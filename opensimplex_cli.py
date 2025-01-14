@@ -72,7 +72,7 @@ class OpenSimplexCLI:
 
         shell(c)
         if not Path(t).is_file():
-            raise SystemError("OpenSimples CLI execution failed!")
+            raise SystemError("OpenSimplex CLI execution failed!")
 
         with open(t, 'r', encoding='utf-8') as f:
             noise_map = json_loads(f.read())
