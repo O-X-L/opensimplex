@@ -17,6 +17,8 @@ Compile: `bash src/cmd/build.sh`
 
 Test it: `python3 examples/generate_map_cli.py`
 
+How to use it: [Example](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cli.py)
+
 This way it basically calls the standalone golang binary in a subprocess and loads the resulting data from a temporary file.
 
 It currently only supports generating whole 2D noise-maps.
@@ -58,6 +60,8 @@ Usage of noise_cli:
 Compile: `bash src/lib/build.sh`
 
 Test it: `python3 examples/minimal_cgo.py` or `python3 examples/generate_map_cgo.py`
+
+How to use it: [Example](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cgo.py)
 
 The CGO implementation is very slow. Not yet sure why that is..
 
