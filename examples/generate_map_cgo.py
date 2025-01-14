@@ -34,6 +34,7 @@ terrain_config = OpenSimplexConfig(
 terrain_noise = OpenSimplexExtended(terrain_config)
 A = 0.5
 area = map_size * map_size
+start_time = int(time())
 
 
 def _generate() -> tuple[list[float], float]:
@@ -63,5 +64,4 @@ def main():
 
 
 if __name__ == '__main__':
-    start_time = int(time())
     print(_profile(main)[1])

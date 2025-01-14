@@ -5,6 +5,8 @@ from os import system as shell
 from os import remove as remove_file
 from json import loads as json_loads
 
+# pylint: disable=R0801
+
 BASE_PATH = Path(__file__).parent.resolve()
 
 

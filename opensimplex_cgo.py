@@ -2,6 +2,8 @@ from random import randint
 from pathlib import Path
 from ctypes import cdll, c_int64, c_float
 
+# pylint: disable=R0801
+
 BASE_PATH = Path(__file__).parent.resolve()
 
 __opensimplex = cdll.LoadLibrary(f'{BASE_PATH}/noise_cgo.so')
