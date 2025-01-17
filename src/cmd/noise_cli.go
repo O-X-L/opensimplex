@@ -67,12 +67,13 @@ func (n *simplexNoise) get_extended_2d(x float64, y float64) float32 {
 	return float32(math.Pow(float64(total), n.exponentiation) * n.height)
 }
 
-func (n *simplexNoise) get_extended_2d_array(size int64, pos_x float64, pos_y float64, silent bool) ([]float32, float32) {
+func (n *simplexNoise) get_extended_2d_array(size int64, pos_x float64, pos_y float64, silent bool) ([]float32, float32, float32) {
 	if !silent {
 		log.Println("Generate 2D array..")
 	}
 	d := []float32{}
-	m := float32(0)
+	max := float32(0)
+	min := float32(100000)
 
 	for x := range size {
 		for y := range size {
@@ -80,22 +81,26 @@ func (n *simplexNoise) get_extended_2d_array(size int64, pos_x float64, pos_y fl
 			ya := float64(y) + pos_y
 			h := n.get_extended_2d(xa, ya)
 			d = append(d, float32(xa), float32(ya), h)
-			if h > m {
-				m = h
+			if h > max {
+				max = h
+			}
+			if h < min {
+				min = h
 			}
 		}
 	}
 
-	return d, m
+	return d, max, min
 }
 
 type noiseArrayJSON struct {
 	Data []float32 `json:"data"`
 	Max  float32   `json:"max"`
+	Min  float32   `json:"min"`
 }
 
-func export_to_json(d []float32, m float32, o string, silent bool) {
-	n := noiseArrayJSON{Data: d, Max: m}
+func export_to_json(d []float32, max float32, min float32, o string, silent bool) {
+	n := noiseArrayJSON{Data: d, Max: max, Min: min}
 	json, err := json.Marshal(n)
 	if err != nil {
 		log.Fatalf("Error encoding data: %v\n", err)
@@ -109,6 +114,21 @@ func export_to_json(d []float32, m float32, o string, silent bool) {
 	}
 }
 
+func skin_down(d []float32, min float32, max float32, silent bool, dimensions int) ([]float32, float32, float32) {
+	if !silent {
+		log.Println("Sinking noise-map..")
+	}
+	var ih int
+	md := dimensions + 1
+	for i := range len(d) / md {
+		ih = i*md + dimensions
+		d[ih] = d[ih] - min
+	}
+	max -= min
+	min = 0
+	return d, max, min
+}
+
 func main() {
 	seed := flag.Int64("seed", -1, "Seed")
 	persistence := flag.Float64("persistence", 0.7, "Persistence")
@@ -119,13 +139,14 @@ func main() {
 	height := flag.Float64("height", 135.0, "Height")
 
 	dimensions := flag.Int("dimensions", 2, "Dimensions")
-	size := flag.Int64("size", 1000, "Map Size")
-	pos_x := flag.Float64("x", 0, "Position X")
-	pos_y := flag.Float64("y", 0, "Position Y")
-	// pos_z := flag.Float64("z", 0, "Position Z")
-	// pos_w := flag.Float64("w", 0, "Position W")
-	out_file := flag.String("out", "/tmp/map.json", "Map Output File")
+	size := flag.Int64("size", 1000, "Map size")
+	pos_x := flag.Float64("x", 0, "Map offset dimension-X")
+	pos_y := flag.Float64("y", 0, "Map offset dimension-Y")
+	// pos_z := flag.Float64("z", 0, "Map offset dimension-Z")
+	// pos_w := flag.Float64("w", 0, "Map offset dimension-W")
 
+	sink_down := flag.Bool("sink", false, "If the whole noise-map should be sunk-down so the lowest point is 0")
+	out_file := flag.String("out", "/tmp/map.json", "Map output file")
 	silent := flag.Bool("silent", false, "Do not show output")
 
 	flag.Parse()
@@ -139,6 +160,10 @@ func main() {
 		seed = &t
 	}
 
+	if !*silent {
+		log.Println("Seed: ", *seed)
+	}
+
 	noise := simplexNoise{
 		persistence:    *persistence,
 		scale:          *scale,
@@ -149,6 +174,9 @@ func main() {
 		generator:      opensimplex_noise.New32(*seed),
 	}
 
-	m, d := noise.get_extended_2d_array(*size, *pos_x, *pos_y, *silent)
-	export_to_json(m, d, *out_file, *silent)
+	d, max, min := noise.get_extended_2d_array(*size, *pos_x, *pos_y, *silent)
+	if *sink_down {
+		d, max, min = skin_down(d, min, max, *silent, *dimensions)
+	}
+	export_to_json(d, max, min, *out_file, *silent)
 }

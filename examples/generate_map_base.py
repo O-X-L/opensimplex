@@ -63,8 +63,8 @@ def _create_img(size: int, map_data: list[float], max_height: float):
     colour_map = np.zeros((size, size, 3), dtype=np.uint8)
 
     for i in range(size * size):
-        xi, yi, zi = i * 3, i * 3 + 1, i * 3 + 2
-        colour_map[map_data[xi], map_data[yi]] = _get_color(map_data[zi], max_height)
+        xi, yi, hi = i * 3, i * 3 + 1, i * 3 + 2
+        colour_map[map_data[xi], map_data[yi]] = _get_color(map_data[hi], max_height)
 
     image = Image.fromarray(colour_map, 'RGB')
     image.save(out_img)

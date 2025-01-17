@@ -27,9 +27,10 @@ class OpenSimplexConfig:
 class OpenSimplexCLI:
     cli = f"{BASE_PATH}/noise_cli"
 
-    def __init__(self, config: OpenSimplexConfig, silent: bool = False):
+    def __init__(self, config: OpenSimplexConfig, silent: bool = False, sink_down: bool = False):
         self.cnf = config
         self.silent = silent
+        self.sink_down = sink_down
         if config.seed is None:
             self.cnf.seed = randint(0, 100_000_000)
 
@@ -38,37 +39,49 @@ class OpenSimplexCLI:
 
     def get_2d_array(
             self, size: int, pos_x: float = 0, pos_y: float = 0,
-    ) -> tuple[list[float], float]:
+    ) -> tuple[list[float], float, float]:
         return self._cli(dimensions=2, size=size, pos_x=pos_x, pos_y=pos_y)
 
     # todo: implement 3Darray
-    def get_3d_array(
-            self, size: int, pos_x: float = 0, pos_y: float = 0, pos_z: float = 0,
-    ) -> tuple[list[float], float]:
-        del pos_z
-        return self._cli(dimensions=2, size=size, pos_x=pos_x, pos_y=pos_y)
+    # def get_3d_array(
+    #         self, size: int, pos_x: float = 0, pos_y: float = 0, pos_z: float = 0,
+    # ) -> tuple[list[float], float, float]:
+    #     del pos_z
+    #     return self._cli(dimensions=3, size=size, pos_x=pos_x, pos_y=pos_y)
 
     # todo: implement 4Darray
-    def get_4d_array(
-            self, size: int, pos_x: float = 0, pos_y: float = 0, pos_z: float = 0, pos_w: float = 0,
-    ) -> tuple[list[float], float]:
-        del pos_z, pos_w
-        return self._cli(dimensions=2, size=size, pos_x=pos_x, pos_y=pos_y)
+    # def get_4d_array(
+    #         self, size: int, pos_x: float = 0, pos_y: float = 0, pos_z: float = 0, pos_w: float = 0,
+    # ) -> tuple[list[float], float, float]:
+    #     del pos_z, pos_w
+    #     return self._cli(dimensions=4, size=size, pos_x=pos_x, pos_y=pos_y)
 
     @staticmethod
     def _tmp_file() -> str:
-        return f'/tmp/map_{int(time())}.json'
+        return f'/tmp/map_{int(time())}_{randint(100, 999)}.json'
 
-    def _cli(self, size: int, pos_x: float = 0, pos_y: float = 0, dimensions: int = 2) -> tuple[list[float], float]:
+    def _cli(self, size: int, pos_x: float = 0, pos_y: float = 0, dimensions: int = 2) -> tuple[list[float], float, float]:
         t = self._tmp_file()
         c = f"""{self.cli} \
--seed {self.cnf.seed} -dimensions {dimensions} -persistence {self.cnf.persistence} -scale {self.cnf.scale} \
--octaves {self.cnf.octaves} -lacunarity {self.cnf.lacunarity} -exponentiation {self.cnf.exponentiation} \
--height {self.cnf.height} -size {size} -x {pos_x} -y {pos_y} -out {t} \
+-seed {self.cnf.seed} \
+-dimensions {dimensions} \
+-persistence {self.cnf.persistence} \
+-scale {self.cnf.scale} \
+-octaves {self.cnf.octaves} \
+-lacunarity {self.cnf.lacunarity} \
+-exponentiation {self.cnf.exponentiation} \
+-height {self.cnf.height} \
+-size {size} \
+-x {pos_x} \
+-y {pos_y} \
+-out {t} \
 """
 
         if self.silent:
             c += ' -silent'
+
+        if self.sink_down:
+            c += ' -sink'
 
         shell(c)
         if not Path(t).is_file():
@@ -78,4 +91,4 @@ class OpenSimplexCLI:
             noise_map = json_loads(f.read())
 
         remove_file(t)
-        return noise_map['data'], noise_map['max']
+        return noise_map['data'], noise_map['max'], noise_map['min']

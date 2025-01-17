@@ -25,10 +25,32 @@ This way it basically calls the standalone golang binary in a subprocess and loa
 
 It currently only supports generating whole 2D noise-maps.
 
+Data example:
+
+```json
+{
+  "data": [0, 0, 0.43935, 0, 1, 0.3984343],  // x, y, height
+  "max": 0.43935,
+  "min": 0.3984343
+}
+```
+
 Usage:
 
 ```bash
 Usage of noise_cli:
+  -size int
+        Map size (default 1000)
+  -x float
+        Map offset dimension-X
+  -y float
+        Map offset dimension-Y
+  -out string
+        Map output file (default "/tmp/map.json")
+  -dimensions int
+        Dimensions (default 2)
+  -seed int
+        Seed (default -1)
   -exponentiation float
         Exponentiation (default 5)
   -height float
@@ -37,22 +59,14 @@ Usage of noise_cli:
         Lacunarity (default 1.5)
   -octaves int
         Octaves (default 10)
-  -out string
-        Map Output File (default "/tmp/map.json")
   -persistence float
         Persistence (default 0.7)
   -scale float
         Scale (default 50)
-  -seed int
-        Seed
   -silent
         Do not show output
-  -size int
-        Map Size (default 1000)
-  -x float
-        Position X
-  -y float
-        Position Y
+  -sink
+        If the whole noise-map should be sunk-down so the lowest point is 0
 ```
 
 ----
