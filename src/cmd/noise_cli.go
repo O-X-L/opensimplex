@@ -110,7 +110,7 @@ func export_to_json(d []float32, m float32, o string, silent bool) {
 }
 
 func main() {
-	seed := flag.Int64("seed", 0, "Seed")
+	seed := flag.Int64("seed", -1, "Seed")
 	persistence := flag.Float64("persistence", 0.7, "Persistence")
 	scale := flag.Float64("scale", 50.0, "Scale")
 	octaves := flag.Int("octaves", 10, "Octaves")
@@ -128,16 +128,17 @@ func main() {
 
 	silent := flag.Bool("silent", false, "Do not show output")
 
+	flag.Parse()
+
 	if *dimensions != 2 {
 		log.Fatalln("Currently only 2D arrays are supported by this CLI")
 	}
 
-	if *seed == 0 {
+	if *seed == -1 {
 		t := time.Now().UnixMilli()
 		seed = &t
 	}
 
-	flag.Parse()
 	noise := simplexNoise{
 		persistence:    *persistence,
 		scale:          *scale,

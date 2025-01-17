@@ -31,9 +31,8 @@ def test_extended_2d():
     assert isinstance(b[1], float)
 
     assert b[0][2] == 83.10225
-    # todo: check why these values change..
-    # assert b[0][-7] == 103.19227
-    # assert b[1] == 84.60377
+    assert b[0][-7] == 80.59629
+    assert b[1] == 84.60377
 
     assert time() - time_start < 1
 
