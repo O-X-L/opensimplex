@@ -114,7 +114,7 @@ func export_to_json(d []float32, max float32, min float32, o string, silent bool
 	}
 }
 
-func skin_down(d []float32, min float32, max float32, silent bool, dimensions int) ([]float32, float32, float32) {
+func mod_skin_down(d []float32, min float32, max float32, silent bool, dimensions int) ([]float32, float32, float32) {
 	if !silent {
 		log.Println("Sinking noise-map..")
 	}
@@ -126,6 +126,30 @@ func skin_down(d []float32, min float32, max float32, silent bool, dimensions in
 	}
 	max -= min
 	min = 0
+	return d, max, min
+}
+
+func mod_lower_by(d []float32, min float32, max float32, lower float32, silent bool, dimensions int) ([]float32, float32, float32) {
+	if !silent {
+		log.Println("Lowering noise-map..")
+	}
+	var ih int
+	md := dimensions + 1
+	for i := range len(d) / md {
+		ih = i*md + dimensions
+		d[ih] -= lower
+		if d[ih] < 0 {
+			d[ih] = 0
+		}
+	}
+	max -= lower
+	if max < 0 {
+		max = 0
+	}
+	min -= lower
+	if min < 0 {
+		min = 0
+	}
 	return d, max, min
 }
 
@@ -146,6 +170,7 @@ func main() {
 	// pos_w := flag.Float64("w", 0, "Map offset dimension-W")
 
 	sink_down := flag.Bool("sink", false, "If the whole noise-map should be sunk-down so the lowest point is 0")
+	lower_by := flag.Float64("lower", -1, "Lower each height by this value - negatives are clamped to 0")
 	out_file := flag.String("out", "/tmp/map.json", "Map output file")
 	silent := flag.Bool("silent", false, "Do not show output")
 
@@ -176,7 +201,11 @@ func main() {
 
 	d, max, min := noise.get_extended_2d_array(*size, *pos_x, *pos_y, *silent)
 	if *sink_down {
-		d, max, min = skin_down(d, min, max, *silent, *dimensions)
+		d, max, min = mod_skin_down(d, min, max, *silent, *dimensions)
 	}
+	if *lower_by != -1 {
+		d, max, min = mod_lower_by(d, min, max, float32(*lower_by), *silent, *dimensions)
+	}
+
 	export_to_json(d, max, min, *out_file, *silent)
 }

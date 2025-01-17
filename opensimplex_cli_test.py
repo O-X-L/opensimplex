@@ -62,9 +62,25 @@ def test_extended_2d_sink():
     assert a[1] == 101.29977
     assert a[2] == 46.347794
 
-    n = OpenSimplexCLI(config=OpenSimplexConfig(seed=SEED), silent=True, sink_down=True)
-    b = n.get_2d_array(size=100)
+    b = n.get_2d_array(size=100, sink_down=True)
     assert b[0][2] == 36.754456
     assert b[0][-7] == 34.13047
     assert b[1] == 54.951973
     assert b[2] == 0
+
+
+def test_extended_2d_lower():
+    n = OpenSimplexCLI(config=OpenSimplexConfig(seed=SEED), silent=True)
+    a = n.get_2d_array(size=100)
+    assert a[0][2] == 83.10225
+    assert a[0][-7] == 80.478264
+    assert a[1] == 101.29977
+    assert a[2] == 46.347794
+
+    lower_by = 40
+    rel = 0.001  # floating-points..
+    b = n.get_2d_array(size=100, lower_by=lower_by)
+    assert -rel < b[0][2] - (83.10225 - lower_by) < rel
+    assert -rel < b[0][-7] - (80.478264 - lower_by) < rel
+    assert -rel < b[1] - (101.29977 - lower_by) < rel
+    assert -rel < b[2] - (46.347794 - lower_by) < rel

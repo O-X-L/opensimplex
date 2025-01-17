@@ -56,7 +56,7 @@ Usage of noise_cli:
   -dimensions int
         Dimensions (default 2)
   -seed int
-        Seed (default -1)
+        Seed
   -exponentiation float
         Exponentiation (default 5)
   -height float
@@ -73,6 +73,8 @@ Usage of noise_cli:
         Do not show output
   -sink
         If the whole noise-map should be sunk-down so the lowest point is 0
+  -lower float
+        Lower each height by this value - negatives are clamped to 0
 ```
 
 ----

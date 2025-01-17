@@ -27,10 +27,9 @@ class OpenSimplexConfig:
 class OpenSimplexCLI:
     cli = f"{BASE_PATH}/noise_cli"
 
-    def __init__(self, config: OpenSimplexConfig, silent: bool = False, sink_down: bool = False):
+    def __init__(self, config: OpenSimplexConfig, silent: bool = False):
         self.cnf = config
         self.silent = silent
-        self.sink_down = sink_down
         if config.seed is None:
             self.cnf.seed = randint(0, 100_000_000)
 
@@ -39,8 +38,9 @@ class OpenSimplexCLI:
 
     def get_2d_array(
             self, size: int, pos_x: float = 0, pos_y: float = 0,
+            lower_by: float = None, sink_down: bool = False,
     ) -> tuple[list[float], float, float]:
-        return self._cli(dimensions=2, size=size, pos_x=pos_x, pos_y=pos_y)
+        return self._cli(dimensions=2, size=size, pos_x=pos_x, pos_y=pos_y, lower_by=lower_by, sink_down=sink_down)
 
     # todo: implement 3Darray
     # def get_3d_array(
@@ -62,6 +62,7 @@ class OpenSimplexCLI:
 
     def _cli(
             self, size: int, pos_x: float = 0, pos_y: float = 0, dimensions: int = 2,
+            lower_by: float = None, sink_down: bool = False,
     ) -> tuple[list[float], float, float]:
         t = self._tmp_file()
         c = f"""{self.cli} \
@@ -82,8 +83,11 @@ class OpenSimplexCLI:
         if self.silent:
             c += ' -silent'
 
-        if self.sink_down:
+        if sink_down:
             c += ' -sink'
+
+        if lower_by:
+            c += f' -lower {lower_by}'
 
         shell(c)
         if not Path(t).is_file():
