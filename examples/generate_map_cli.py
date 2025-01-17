@@ -32,13 +32,13 @@ terrain_config = OpenSimplexConfig(
 terrain_noise = OpenSimplexCLI(terrain_config)
 
 
-def _generate() -> tuple[list[float], float]:
+def _generate() -> tuple[list[float], float, float]:
     print(f'Generating map.. {map_size}x{map_size}')
     return terrain_noise.get_2d_array(size=map_size, pos_x=pos_x, pos_y=pos_y)
 
 
 def main():
-    map_data, max_height = _generate()
+    map_data, max_height, min_height = _generate()
     _create_img(size=map_size, map_data=map_data, max_height=max_height)
 
 

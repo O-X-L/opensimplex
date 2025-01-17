@@ -60,7 +60,9 @@ class OpenSimplexCLI:
     def _tmp_file() -> str:
         return f'/tmp/map_{int(time())}_{randint(100, 999)}.json'
 
-    def _cli(self, size: int, pos_x: float = 0, pos_y: float = 0, dimensions: int = 2) -> tuple[list[float], float, float]:
+    def _cli(
+            self, size: int, pos_x: float = 0, pos_y: float = 0, dimensions: int = 2,
+    ) -> tuple[list[float], float, float]:
         t = self._tmp_file()
         c = f"""{self.cli} \
 -seed {self.cnf.seed} \
