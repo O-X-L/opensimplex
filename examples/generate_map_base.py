@@ -30,7 +30,7 @@ COLOR_SNOW = (255, 255, 255)
 
 # pylint: disable=R0911
 def _get_color(height: float, max_height: float):
-    factor = 255 / max_height
+    factor = 255 / max(1, max_height)
     h = height * factor
 
     h = min(max(h, 0), 255)
