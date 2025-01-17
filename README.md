@@ -9,17 +9,23 @@ It should be an alternative to the full [Python3-implementation of opensimplex](
 
 ## Usage
 
-You first need to install Go to compile the C-library: [Golang download/install](https://go.dev/doc/install)
+You first need to either [download](https://github.com/O-X-L/opensimplex/releases) or build the golang binaries.
+
+### Build
+
+1.  [Golang download/install](https://go.dev/doc/install)
+
+2. Build them: `bash src/cmd/build.sh` and/or `bash src/lib/build.sh`
+
+----
 
 ### CLI Implementation
 
-1. Compile: `bash src/cmd/build.sh`
+1. Install example requirements: `pip install -r examples/requirements.txt`
 
-2. Install example requirements: `pip install -r examples/requirements.txt`
+2. Test it: `python3 examples/generate_map_cli.py`
 
-3. Test it: `python3 examples/generate_map_cli.py`
-
-4. How to use it: [Example](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cli.py)
+3. How to use it: [Example](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cli.py)
 
 This way it basically calls the standalone golang binary in a subprocess and loads the resulting data from a temporary file.
 
@@ -73,13 +79,11 @@ Usage of noise_cli:
 
 ### CGO Implementation
 
-1. Compile: `bash src/lib/build.sh`
+1. Install example requirements: `pip install -r examples/requirements.txt`
 
-2. Install example requirements: `pip install -r examples/requirements.txt`
+2. Test it: `python3 examples/minimal_cgo.py` or `python3 examples/generate_map_cgo.py`
 
-3. Test it: `python3 examples/minimal_cgo.py` or `python3 examples/generate_map_cgo.py`
-
-4. How to use it: [Example](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cgo.py)
+3. How to use it: [Example](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cgo.py)
 
 The CGO implementation is very slow. Not yet sure why that is..
 
