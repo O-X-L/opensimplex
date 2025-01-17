@@ -39,6 +39,7 @@ def _generate() -> tuple[list[float], float, float]:
 
 def main():
     map_data, max_height, min_height = _generate()
+    del min_height
     _create_img(size=map_size, map_data=map_data, max_height=max_height)
 
 
