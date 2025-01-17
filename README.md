@@ -87,7 +87,7 @@ The CGO implementation is very slow. Not yet sure why that is..
 
 ## Credits
 
-Thanks to [@ojrac for the golang module](https://github.com/ojrac/opensimplex-go) and of course to [@KdotJPG for the original OpenSimplex](https://github.com/KdotJPG).
+Thanks to [@ojrac for the golang module](https://github.com/ojrac/opensimplex-go), to [@KdotJPG for the original OpenSimplex](https://github.com/KdotJPG) and to [@simondevyoutube for the implementation-example](https://github.com/simondevyoutube/ProceduralTerrain_Part10).
 
 ## License
 
