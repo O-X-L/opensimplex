@@ -30,6 +30,9 @@ COLOR_SNOW = (255, 255, 255)
 
 # pylint: disable=R0911
 def _get_color(height: float, max_height: float):
+    # NOTE: if you generate multiple chunks:
+    #   make sure to set this 'max_height' once for the whole map so the colors match
+
     factor = 255 / max(1, max_height)
     h = height * factor
 
