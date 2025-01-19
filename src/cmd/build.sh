@@ -4,5 +4,6 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
-go build -o noise_cli
-mv noise_cli ../../
+PATH_OUT="$(pwd)/../.."
+
+go build -o "${PATH_OUT}/noise_cli" noise_cli.go

@@ -38,9 +38,15 @@ class OpenSimplexCLI:
 
     def get_2d_array(
             self, size: int, pos_x: float = 0, pos_y: float = 0,
-            lower_by: float = None, sink_down: bool = False,
-    ) -> tuple[list[float], float, float]:
-        return self._cli(dimensions=2, size=size, pos_x=pos_x, pos_y=pos_y, lower_by=lower_by, sink_down=sink_down)
+            lower_by: float = None, sink_down: bool = False, rotate: str = None, mirror: str = None,
+            no_coords: bool = False,
+    ) -> dict:
+        return self._cli(
+            dimensions=2, size=size, pos_x=pos_x, pos_y=pos_y,
+            lower_by=lower_by, sink_down=sink_down,
+            rotate=rotate, mirror=mirror,
+            no_coords=no_coords,
+        )
 
     # todo: implement 3Darray
     # def get_3d_array(
@@ -62,8 +68,9 @@ class OpenSimplexCLI:
 
     def _cli(
             self, size: int, pos_x: float = 0, pos_y: float = 0, dimensions: int = 2,
-            lower_by: float = None, sink_down: bool = False,
-    ) -> tuple[list[float], float, float]:
+            lower_by: float = None, sink_down: bool = False, rotate: str = None, mirror: str = None,
+            no_coords: bool = False,
+    ) -> dict:
         t = self._tmp_file()
         c = f"""{self.cli} \
 -seed {self.cnf.seed} \
@@ -89,6 +96,15 @@ class OpenSimplexCLI:
         if lower_by:
             c += f' -lower {lower_by}'
 
+        if no_coords:
+            c += ' -no-coords'
+
+        if mirror is not None and mirror in ['reverse', 'xy', 'x', 'y']:
+            c += f' -mirror {mirror}'
+
+        if rotate is not None and rotate in ['90cw', '90ccw', '180']:
+            c += f' -rotate {rotate}'
+
         shell(c)
         if not Path(t).is_file():
             raise SystemError("OpenSimplex CLI execution failed!")
@@ -97,4 +113,4 @@ class OpenSimplexCLI:
             noise_map = json_loads(f.read())
 
         remove_file(t)
-        return noise_map['data'], noise_map['max'], noise_map['min']
+        return noise_map

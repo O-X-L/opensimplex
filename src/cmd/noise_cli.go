@@ -1,13 +1,12 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"log"
 	"math"
-	"os"
 	"time"
 
+	"github.com/O-X-L/python-opensimplex/internal"
 	opensimplex_noise "github.com/ojrac/opensimplex-go"
 )
 
@@ -93,66 +92,6 @@ func (n *simplexNoise) get_extended_2d_array(size int64, pos_x float64, pos_y fl
 	return d, max, min
 }
 
-type noiseArrayJSON struct {
-	Data []float32 `json:"data"`
-	Max  float32   `json:"max"`
-	Min  float32   `json:"min"`
-}
-
-func export_to_json(d []float32, max float32, min float32, o string, silent bool) {
-	n := noiseArrayJSON{Data: d, Max: max, Min: min}
-	json, err := json.Marshal(n)
-	if err != nil {
-		log.Fatalf("Error encoding data: %v\n", err)
-	}
-	err = os.WriteFile(o, json, 0644)
-	if err != nil {
-		log.Fatalf("Error writing data: %v\n", err)
-	}
-	if !silent {
-		log.Printf("Data written to file: %v\n", o)
-	}
-}
-
-func mod_skin_down(d []float32, min float32, max float32, silent bool, dimensions int) ([]float32, float32, float32) {
-	if !silent {
-		log.Println("Sinking noise-map..")
-	}
-	var ih int
-	md := dimensions + 1
-	for i := range len(d) / md {
-		ih = i*md + dimensions
-		d[ih] = d[ih] - min
-	}
-	max -= min
-	min = 0
-	return d, max, min
-}
-
-func mod_lower_by(d []float32, min float32, max float32, lower float32, silent bool, dimensions int) ([]float32, float32, float32) {
-	if !silent {
-		log.Println("Lowering noise-map..")
-	}
-	var ih int
-	md := dimensions + 1
-	for i := range len(d) / md {
-		ih = i*md + dimensions
-		d[ih] -= lower
-		if d[ih] < 0 {
-			d[ih] = 0
-		}
-	}
-	max -= lower
-	if max < 0 {
-		max = 0
-	}
-	min -= lower
-	if min < 0 {
-		min = 0
-	}
-	return d, max, min
-}
-
 func main() {
 	seed := flag.Int64("seed", -1, "Seed")
 	persistence := flag.Float64("persistence", 0.7, "Persistence")
@@ -173,6 +112,9 @@ func main() {
 	lower_by := flag.Float64("lower", -1, "Lower each height by this value - negatives are clamped to 0")
 	out_file := flag.String("out", "/tmp/map.json", "Map output file")
 	silent := flag.Bool("silent", false, "Do not show output")
+	export_no_coords := flag.Bool("no-coords", false, "If enabled the coords will be omitted from the data-export")
+	mirror := flag.String("mirror", "", "To mirror the values set this to one of: 'x', 'y', 'xy', 'reverse'")
+	rotate := flag.String("rotate", "", "To rotate the values set this to one of: '90cw', '90ccw', '180'")
 
 	flag.Parse()
 
@@ -201,11 +143,31 @@ func main() {
 
 	d, max, min := noise.get_extended_2d_array(*size, *pos_x, *pos_y, *silent)
 	if *sink_down {
-		d, max, min = mod_skin_down(d, min, max, *silent, *dimensions)
+		d, max, min = internal.UpdateSinkDown(d, min, max, *silent, *dimensions)
 	}
 	if *lower_by != -1 {
-		d, max, min = mod_lower_by(d, min, max, float32(*lower_by), *silent, *dimensions)
+		d, max, min = internal.UpdateLowerBy(d, min, max, float32(*lower_by), *silent, *dimensions)
 	}
 
-	export_to_json(d, max, min, *out_file, *silent)
+	if *mirror == "xy" || *mirror == "reverse" {
+		d = internal.UpdateMirrorX(d, *silent, *dimensions, *size)
+		d = internal.UpdateMirrorY(d, *silent, *dimensions, *size)
+	} else if *mirror == "x" {
+		d = internal.UpdateMirrorX(d, *silent, *dimensions, *size)
+	} else if *mirror == "y" {
+		d = internal.UpdateMirrorY(d, *silent, *dimensions, *size)
+	}
+
+	if *rotate == "90cw" {
+		d = internal.UpdateRotate90CW(d, *silent, *dimensions, *size)
+	} else if *rotate == "90ccw" {
+		d = internal.UpdateRotate90CCW(d, *silent, *dimensions, *size)
+	} else if *rotate == "180" {
+		d = internal.UpdateRotate180(d, *silent, *dimensions, *size)
+	}
+
+	if *export_no_coords {
+		d = internal.UpdateStripCoords(d, *silent, *dimensions)
+	}
+	internal.ExportToJSON(d, max, min, *out_file, *silent)
 }

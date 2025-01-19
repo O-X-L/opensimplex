@@ -25,13 +25,15 @@ You first need to either [download](https://github.com/O-X-L/opensimplex/release
 
 2. Test it: `python3 examples/generate_map_cli.py`
 
-3. How to use it: [Example](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cli.py)
+3. How to use it: [Example](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cli.py) | [Practical Example of Terrain-Generation](https://github.com/superstes/strategy-browser-game/tree/main/src/backend/map_generator)
 
 This way it basically calls the standalone golang binary in a subprocess and loads the resulting data from a temporary file.
 
-It currently only supports generating whole 2D noise-maps.
+It currently only supports generating whole **2D** noise-maps.
 
-Data example:
+#### Raw CLI Usage
+
+Export data example:
 
 ```json
 {
@@ -71,10 +73,16 @@ Usage of noise_cli:
         Scale (default 50)
   -silent
         Do not show output
+  -no-coords
+        If enabled the coords will be omitted from the data-export
   -sink
         If the whole noise-map should be sunk-down so the lowest point is 0
   -lower float
         Lower each height by this value - negatives are clamped to 0
+  -mirror string
+        To mirror the values set this to one of: 'x', 'y', 'xy', 'reverse'
+  -rotate string
+        To rotate the values set this to one of: '90cw', '90ccw', '180'
 ```
 
 ----

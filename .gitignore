@@ -6,3 +6,4 @@ noise_cli
 .pytest_cache/
 .idea/
 __pycache__
+build/

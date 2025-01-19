@@ -32,16 +32,14 @@ terrain_config = OpenSimplexConfig(
 )
 
 terrain_noise = OpenSimplexExtended(terrain_config)
-A = 0.5
 area = map_size * map_size
 start_time = int(time())
 
 
-def _generate() -> tuple[list[float], float]:
+def _generate() -> dict:
     print(f'Generating map.. {map_size}x{map_size}')
     d = []
-    m = 0
-    idx = 0
+    mx, mi, idx = 0, 10000, 0
 
     for x in range(0, map_size):
         for y in range(0, map_size):
@@ -51,16 +49,16 @@ def _generate() -> tuple[list[float], float]:
             xa, ya = x + pos_x, y + pos_y
             h = terrain_noise.get_2d(xa, ya)
             d.extend([xa, ya, h])
-            m = max(m, h)
-
+            mx = max(mx, h)
+            mi = min(mi, h)
             idx += 1
 
-    return d, m
+    return {'data': d, 'max': mx, 'min': mi}
 
 
 def main():
-    map_data, max_height = _generate()
-    _create_img(size=map_size, map_data=map_data, max_height=max_height)
+    noise = _generate()
+    _create_img(size=map_size, map_data=noise['data'], max_height=noise['max'])
 
 
 if __name__ == '__main__':
