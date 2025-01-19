@@ -55,4 +55,6 @@ jobs:
       - name: Running GoLang Lint
         uses: golangci/golangci-lint-action@v3
         with:
+          working-directory: 'src'
           args: '--config=.golangci.yml --out-format=colored-line-number'
+          skip-cache: true
