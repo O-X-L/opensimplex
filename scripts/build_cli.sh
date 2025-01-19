@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-cd "$(dirname "$0")../src/cmd"
+cd "$(dirname "$0")/../src/cmd"
 
 PATH_OUT="$(pwd)/../.."
 
