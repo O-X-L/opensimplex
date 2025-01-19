@@ -15,7 +15,7 @@ You first need to either [download](https://github.com/O-X-L/opensimplex/release
 
 1.  [Golang download/install](https://go.dev/doc/install)
 
-2. Build them: `bash src/cmd/build.sh` and/or `bash src/lib/build.sh`
+2. Build them: `bash scripts/build_cli.sh` and/or `bash scripts/build_cgo.sh`
 
 ----
 

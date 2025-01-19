@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/../src/lib"
 
 PATH_OUT="$(pwd)/../.."
 

@@ -49,8 +49,8 @@ jobs:
 
       - name: Building Go Binaries
         run: |
-          bash src/cmd/build.sh
-          bash src/lib/build.sh
+          bash scripts/build_cli.sh
+          bash scripts/build_cgo.sh
 
       - name: Running Unit Tests
         run: |
