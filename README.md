@@ -14,6 +14,7 @@ It should be an alternative to the full [Python3-implementation of opensimplex](
 ### 50 x 50
 
 |Implementation|Time|
+|---|---|
 |[opensimplex-go CLI](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cli.py)|0.047|
 |[opensimplex python](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_compare.py)|0.673|
 |[opensimplex-go CGO](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cgo.py)|8.371|
@@ -21,6 +22,7 @@ It should be an alternative to the full [Python3-implementation of opensimplex](
 ### 200 x 200
 
 |Implementation|Time|
+|---|---|
 |[opensimplex-go CLI](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cli.py)|0.209|
 |[opensimplex python](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_compare.py)|10.808|
 |[opensimplex-go CGO](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cgo.py)|139.539|
@@ -28,6 +30,7 @@ It should be an alternative to the full [Python3-implementation of opensimplex](
 ### 1000 x 1000
 
 |Implementation|Time|
+|---|---|
 |[opensimplex-go CLI](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cli.py)|3.535|
 |[opensimplex python](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_compare.py)|248.498|
 |[opensimplex-go CGO](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cgo.py)|LOOONG...|
