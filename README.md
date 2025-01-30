@@ -35,7 +35,9 @@ It should be an alternative to the full [Python3-implementation of opensimplex](
 |[opensimplex python](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_compare.py)|248.498|
 |[opensimplex-go CGO](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cgo.py)|LOOONG...|
 
-![Example Map](https://raw.githubusercontent.com/O-X-L/opensimplex/refs/heads/latest/examples/map_1000x1000.webp)
+----
+
+<img alt="Example Map" src="https://raw.githubusercontent.com/O-X-L/opensimplex/refs/heads/latest/examples/map_1000x1000.webp" width="70%" />
 
 ----
 
