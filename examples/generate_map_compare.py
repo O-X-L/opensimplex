@@ -6,6 +6,7 @@
 
 # pylint: disable=R0801
 
+# this script is used to compare performance to the full python3 implementation: https://pypi.org/project/opensimplex/
 # requirements: pip install opensimplex
 
 from time import time
