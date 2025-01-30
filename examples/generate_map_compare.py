@@ -12,9 +12,9 @@
 from time import time
 from sys import path as sys_path
 
-import opensimplex
-
 from generate_map_base import BASE_PATH, _create_img, _profile
+
+import opensimplex
 
 sys_path.append(str(BASE_PATH))
 

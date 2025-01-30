@@ -1,1 +1,4 @@
 pylint
+
+# example/generate_map_compare.py
+opensimplex
