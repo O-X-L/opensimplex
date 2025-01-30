@@ -6,7 +6,7 @@ import (
 	"math"
 	"time"
 
-	"github.com/O-X-L/python-opensimplex/internal"
+	"github.com/O-X-L/opensimplex/internal"
 	opensimplex_noise "github.com/ojrac/opensimplex-go"
 )
 

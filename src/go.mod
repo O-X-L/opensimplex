@@ -1,4 +1,4 @@
-module github.com/O-X-L/python-opensimplex
+module github.com/O-X-L/opensimplex
 
 go 1.23.4
 

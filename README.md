@@ -1,11 +1,40 @@
 # OpenSimplex Noise
 
-[![Lint](https://github.com/O-X-L/python-opensimplex/actions/workflows/lint.yml/badge.svg)](https://github.com/O-X-L/python-opensimplex/actions/workflows/lint.yml)
-[![Test](https://github.com/O-X-L/python-opensimplex/actions/workflows/test.yml/badge.svg)](https://github.com/O-X-L/python-opensimplex/actions/workflows/test.yml)
+[![Lint](https://github.com/O-X-L/opensimplex/actions/workflows/lint.yml/badge.svg)](https://github.com/O-X-L/opensimplex/actions/workflows/lint.yml)
+[![Test](https://github.com/O-X-L/opensimplex/actions/workflows/test.yml/badge.svg)](https://github.com/O-X-L/opensimplex/actions/workflows/test.yml)
 
 This repository contains a simple Python3-wrapper around the [opensimplex-go](https://github.com/ojrac/opensimplex-go) module.
 
 It should be an alternative to the full [Python3-implementation of opensimplex](https://pypi.org/project/opensimplex/).
+
+----
+
+## Benchmarks
+
+### 50 x 50
+
+|Implementation|Time|
+|[opensimplex-go CLI](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cli.py)|0.047|
+|[opensimplex python](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_compare.py)|0.673|
+|[opensimplex-go CGO](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cgo.py)|8.371|
+
+### 200 x 200
+
+|Implementation|Time|
+|[opensimplex-go CLI](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cli.py)|0.209|
+|[opensimplex python](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_compare.py)|10.808|
+|[opensimplex-go CGO](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cgo.py)|139.539|
+
+### 1000 x 1000
+
+|Implementation|Time|
+|[opensimplex-go CLI](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cli.py)|3.535|
+|[opensimplex python](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_compare.py)|248.498|
+|[opensimplex-go CGO](https://github.com/O-X-L/opensimplex/blob/latest/examples/generate_map_cgo.py)|LOOONG...|
+
+![Example Map](https://raw.githubusercontent.com/O-X-L/opensimplex/refs/heads/latest/examples/map_1000x1000.webp)
+
+----
 
 ## Usage
 

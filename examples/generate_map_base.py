@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Source: https://github.com/O-X-L/python-opensimplex
+# Source: https://github.com/O-X-L/opensimplex
 # Copyright: Rath Pascal
 # License: MIT
 
